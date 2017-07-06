@@ -14,7 +14,9 @@ final class PostController: ResourceRepresentable {
     /// When users call 'GET' on '/posts'
     /// it should return an index of all available posts
     func index(req: Request) throws -> ResponseRepresentable {
-        return try Post.all().makeJSON()
+        let posts = try Post.all()
+
+        return try drop.view.make("base")
     }
 
     /// When consumers call 'POST' on '/posts' with valid JSON
