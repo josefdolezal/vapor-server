@@ -4,6 +4,13 @@ import HTTP
 /// Here we have a controller that helps facilitate
 /// RESTful interactions with our Posts table
 final class PostController: ResourceRepresentable {
+
+    private let drop: Droplet
+
+    init(droplet: Droplet) throws {
+        self.drop = droplet
+    }
+
     /// When users call 'GET' on '/posts'
     /// it should return an index of all available posts
     func index(req: Request) throws -> ResponseRepresentable {
@@ -92,9 +99,3 @@ extension Request {
         return try Post(json: json)
     }
 }
-
-/// Since PostController doesn't require anything to 
-/// be initialized we can conform it to EmptyInitializable.
-///
-/// This will allow it to be passed by type.
-extension PostController: EmptyInitializable { }
