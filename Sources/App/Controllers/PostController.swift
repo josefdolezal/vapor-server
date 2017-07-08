@@ -16,7 +16,7 @@ final class PostController: ResourceRepresentable {
     func index(req: Request) throws -> ResponseRepresentable {
         let posts = try Post.all()
 
-        return try drop.view.make("base")
+        return try render(template: "index", with: ["posts": posts], for: req)
     }
 
     /// When consumers call 'POST' on '/posts' with valid JSON
@@ -89,6 +89,17 @@ final class PostController: ResourceRepresentable {
             destroy: delete,
             clear: clear
         )
+    }
+
+    /// Renders template located in posts subdir
+    ///
+    /// - Parameters:
+    ///   - template: Name of template to be rendered
+    ///   - context: Template context
+    /// - Returns: Response
+    /// - Throws: Error
+    private func render(template: String, with context: NodeRepresentable, for request: Request) throws -> ResponseRepresentable {
+        return try drop.view.make("posts/\(template)", context, for: request)
     }
 }
 
